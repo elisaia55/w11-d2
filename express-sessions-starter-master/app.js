@@ -17,6 +17,6 @@ app.get('/contact', (req, res) => {
   res.render('contact', { title: 'Contact' });
 });
 
-const port = 8080;
+ const port = 8080;
 
 app.listen(port, () => console.log(`Listening for connections on port ${port}...`));
