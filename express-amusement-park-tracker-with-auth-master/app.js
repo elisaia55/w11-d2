@@ -3,18 +3,24 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 
-const { environment } = require('./config');
+const { environment, sessionSecret } = require('./config');
 const indexRoutes = require('./routes');
 const parkRoutes = require('./routes/park');
 const attractionRoutes = require('./routes/attraction');
-
+const session = require('express-session');
 const app = express();
 
 app.set('view engine', 'pug');
 
 app.use(morgan('dev'));
-app.use(cookieParser());
+app.use(cookieParser(sessionSecret));
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
+
 app.use(indexRoutes);
 app.use(parkRoutes);
 app.use(attractionRoutes);
