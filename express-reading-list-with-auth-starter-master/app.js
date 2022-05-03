@@ -1,17 +1,28 @@
 
+
 const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
-const routes = require('./routes');
+const { sessionSecret } = require('./config');
+const bookRoutes = require('./routes/book');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
 app.set('view engine', 'pug');
 app.use(morgan('dev'));
-app.use(cookieParser());
+app.use(cookieParser(sessionSecret));
+app.use(session({
+  name: 'reading-list.sid',
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+}));
 app.use(express.urlencoded({ extended: false }));
-app.use(routes);
+app.use(bookRoutes);
+app.use(userRoutes);
 
 // Catch unhandled requests and forward to error handler.
 app.use((req, res, next) => {
