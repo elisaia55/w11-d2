@@ -7,6 +7,7 @@ const { environment, sessionSecret } = require('./config');
 const indexRoutes = require('./routes');
 const parkRoutes = require('./routes/park');
 const attractionRoutes = require('./routes/attraction');
+const userRoutes = require('./routes/user');
 const session = require('express-session');
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(session({
 app.use(indexRoutes);
 app.use(parkRoutes);
 app.use(attractionRoutes);
+app.use(userRoutes);
 
 // Catch unhandled requests and forward to error handler.
 app.use((req, res, next) => {
