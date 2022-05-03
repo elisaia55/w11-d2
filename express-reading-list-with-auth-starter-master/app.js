@@ -4,7 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-
+const { restoreUser } = require('./auth');
 const { sessionSecret } = require('./config');
 const bookRoutes = require('./routes/book');
 const userRoutes = require('./routes/user');
@@ -21,7 +21,10 @@ app.use(session({
   saveUninitialized: false,
 }));
 app.use(express.urlencoded({ extended: false }));
-app.use(bookRoutes);
+app.use(restoreUser);
+
+
+app.use(bookRoutes);//have to come last
 app.use(userRoutes);
 
 // Catch unhandled requests and forward to error handler.

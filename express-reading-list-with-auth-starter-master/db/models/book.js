@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Book.associate = function(models) {
-    // associations can be defined here
+    Book.belongsTo(models.User, {
+      as: 'user',
+      foreignKey: 'userId'
+    });
   };
   return Book;
 };
